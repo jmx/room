@@ -4,7 +4,8 @@
   "description": "Test harness for rendering the stealthy game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "budo index.js --live -- -t [ babelify ]"
   },
   "repository": {
     "type": "git",
