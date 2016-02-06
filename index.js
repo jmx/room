@@ -1,6 +1,6 @@
 import glnow from "gl-now";
 import createMesh from "gl-mesh";
-import simple3dShader from "simple-3d-shader";
+import createShader from "gl-basic-shader";
 import attachCamera from "game-shell-orbit-camera";
 import glm from "gl-matrix";
 import Stats from "stats.js";
@@ -18,6 +18,7 @@ document.body.appendChild( stats.domElement );
 
 let camera = attachCamera(shell);
 
+// Coordinates for the 'pillars'
 let boxPositions = [
 	[-1, 1, 0],
 	[1, 1, 0],
@@ -30,13 +31,21 @@ let boxes = [];
 camera.lookAt([0, 0, 7], [0, 0, 0], [0, 1, 0])
  
 shell.on("gl-init", function() {
-	shader = simple3dShader(shell.gl);
+	shader = createShader(shell.gl, {
+		color: true
+	});
 	boxPositions.forEach((position) => {
 		mesh = createMesh(shell.gl, require("./geometry/box"));
+		mesh.type = "box";
 		mesh.offset = position;
 		boxes.push(mesh);
 	});
-	
+
+	// for now put the sprite in the boxes array
+	mesh = createMesh(shell.gl, require("./geometry/sprite"));
+	mesh.type = "sprite";
+	mesh.offset = [0,0, -1];
+	boxes.push(mesh);
 });
  
 shell.on("gl-render", function(t) {
@@ -58,9 +67,9 @@ shell.on("gl-render", function(t) {
 
 		shader.uniforms.model = scratch;
 
-		mesh.bind(shader)
-		mesh.draw()
-		mesh.unbind()	
+		mesh.bind(shader);
+		mesh.draw();
+		mesh.unbind();
 	}
 	stats.end();
 });
