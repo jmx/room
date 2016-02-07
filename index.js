@@ -157,6 +157,11 @@ shell.on("gl-render", function(t) {
 		// apply matrix to shader
 		entityShader.uniforms.model = scratch;
 
+		// invert model matrix (for lighting)
+		mat4.invert(scratch, scratch)
+
+		entityShader.uniforms.invModel = mat4.transpose(scratch, scratch);
+
 		mesh.bind(entityShader);
 		mesh.draw();
 		mesh.unbind();
