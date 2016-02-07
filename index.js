@@ -35,11 +35,13 @@ document.body.appendChild( stats.domElement );
 let mesh, i, frame = 0;
 let shell = glnow();
 let mat4 = glm.mat4;
+let vec3 = glm.vec3;
 let scratch = mat4.create();
 let tint = [1.0, 1.0, 1.0, 1.0];
 
 let boxes = [];
 let lights = [];
+let directionalLight;
 
 // Coordinates for the 'pillars'
 let boxPositions = [
@@ -82,10 +84,12 @@ shell.on("gl-init", function() {
 	);
 
 	boxPositions.forEach((position) => {
+		// the order .attr() is called matters!
 		mesh = Geometry(shell.gl)
 			.faces(box.cells)
 			.attr("colors", box.colors)
-			.attr("positions", box.positions);
+			.attr("normals", box.normals)
+			.attr("positions", box.positions)
 
 		mesh.type = "box";
 		mesh.position = position;
@@ -99,6 +103,11 @@ shell.on("gl-init", function() {
 		mesh.scale = [position[3], position[3], position[3]];
 		lights.push(mesh);
 	});
+
+	directionalLight = createMesh(shell.gl, icosphere(1));
+	directionalLight.type = "light";
+	directionalLight.position = [2, 2, 2];
+	directionalLight.scale = [0.2, 0.2, 0.2];
 
 	// teapot :-)
 	mesh = createMesh(shell.gl, teapot);
@@ -123,6 +132,12 @@ shell.on("gl-render", function(t) {
 	// just white.
 	entityShader.uniforms.tint = tint;
 	entityShader.uniforms.projection = mat4.perspective(scratch, Math.PI/4.0, shell.width/shell.height, 0.1, 1000.0);
+	// diffuse directional light for scene
+	entityShader.uniforms.lightColor = [1, 1, 1];
+	let ld = [-1.5, 3.0, 4.0];
+	entityShader.uniforms.lightDirection = vec3.normalize(ld, ld);
+	// todo: pass intensity in {w} coordinate
+	entityShader.uniforms.lightPosition = [lights[0].position[0], lights[0].position[1], lights[0].position[2]];
 
 	//Draw object 
 	for (i=0; i<boxes.length; i++) {
@@ -176,6 +191,15 @@ shell.on("gl-render", function(t) {
 		mesh.draw();
 		mesh.unbind();
 	}
+
+	// put the directional light somewhere we can see it :-)
+	mat4.identity(scratch);
+	directionalLight.bind(lightShader);
+	mat4.translate(scratch, scratch, directionalLight.position);
+	mat4.scale(scratch, scratch, directionalLight.scale);
+	lightShader.uniforms.model = scratch;
+	directionalLight.draw();
+	directionalLight.unbind();
 
 	stats.end();
 	frame++;
