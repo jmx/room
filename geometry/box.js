@@ -1,3 +1,5 @@
+import normals from "normals";
+
 const positions = [
 	// top unique faces
 	[-0.5, 0.5, 1.0],
@@ -31,14 +33,14 @@ const cells = [
 
 // colors (sic) :-)
 const colors = [
-	[0.5, 0.0, 0.0],
-	[0.0, 0.5, 0.0],
-	[0.0, 0.0, 0.5],
-	[0.5, 0.5, 0.0],
-	[0.0, 0.5, 0.5],
-	[0.5, 0.0, 0.5],
-	[0.0, 0.0, 0.0],
-	[0.5, 0.5, 0.5]
+	[1.0, 0.0, 0.0],
+	[1.0, 0.0, 0.0],
+	[1.0, 0.0, 0.0],
+	[1.0, 0.0, 0.0],
+	[1.0, 0.0, 0.0],
+	[1.0, 0.0, 0.0],
+	[1.0, 0.0, 0.0],
+	[1.0, 0.0, 0.0]
 ];
 
 const texcoord0 = [
@@ -51,9 +53,12 @@ const texcoord0 = [
 	[0.0, 0.75]
 ];
 
+const vertexNormals = normals.vertexNormals(cells, positions);
+
 export default {
 	positions,
 	cells,
 	colors,
-	texcoord0
+	texcoord0,
+	normals: vertexNormals
 }
