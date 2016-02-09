@@ -26,6 +26,7 @@
     "async-each": "^1.0.0",
     "bunny": "^1.0.1",
     "game-shell-orbit-camera": "^1.0.0",
+    "geo-3d-box": "^2.0.2",
     "gl-geometry": "^3.1.0",
     "gl-matrix": "^2.3.1",
     "gl-mesh": "^0.1.0",
