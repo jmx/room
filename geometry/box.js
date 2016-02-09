@@ -43,14 +43,15 @@ const colors = [
 	[1.0, 0.0, 0.0]
 ];
 
-const texcoord0 = [
+const uvs = [
 	[0.5, 0.5],
 	[0.5, 1.0],
 	[1.0, 0.75],
 	[1.0, 0.25],
 	[0.5, 0.0],
 	[0.0, 0.25],
-	[0.0, 0.75]
+	[0.0, 0.75],
+	[0.5, 0.0]
 ];
 
 const vertexNormals = normals.vertexNormals(cells, positions);
@@ -59,6 +60,6 @@ export default {
 	positions,
 	cells,
 	colors,
-	texcoord0,
+	uvs,
 	normals: vertexNormals
 }

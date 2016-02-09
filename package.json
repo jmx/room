@@ -23,6 +23,7 @@
     "glslify": "^5.0.2"
   },
   "dependencies": {
+    "async-each": "^1.0.0",
     "bunny": "^1.0.1",
     "game-shell-orbit-camera": "^1.0.0",
     "gl-geometry": "^3.1.0",
@@ -30,7 +31,9 @@
     "gl-mesh": "^0.1.0",
     "gl-now": "^1.4.0",
     "gl-shader": "^4.2.0",
+    "gl-texture2d": "^2.0.10",
     "icosphere": "^1.0.0",
+    "img": "^1.0.0",
     "normals": "^1.0.1",
     "stats.js": "^1.0.0",
     "teapot": "^1.0.0"
