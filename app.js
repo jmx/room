@@ -23,6 +23,7 @@ stats.setMode(0);
 stats.domElement.style.position = 'absolute';
 stats.domElement.style.left = '0px';
 stats.domElement.style.top = '0px';
+stats.domElement.style.zIndex = 100;
 document.body.appendChild( stats.domElement );
 
 /* Textures */
@@ -69,6 +70,10 @@ export default function createApp(shell, images) {
 		// // being visible from behind.
 		// gl.enable(gl.CULL_FACE);
 
+		let ext = gl.getExtension('OES_standard_derivatives');
+		if (!ext)
+			throw new Error('derivatives not supported');
+
 		// 'misc' entity shader
 		entityShader = createShader(
 			shell.gl,
@@ -95,7 +100,7 @@ export default function createApp(shell, images) {
 			// set wrapping to repeat
 			tex.wrap = gl.REPEAT
 
-			let ext = gl.getExtension("EXT_texture_filter_anisotropic");
+			ext = gl.getExtension("EXT_texture_filter_anisotropic");
 			if (ext) {
 				let maxAnistrophy = gl.getParameter(ext.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
 				tex.bind();
@@ -149,7 +154,9 @@ export default function createApp(shell, images) {
 		diffuse.bind(0);
 		normal.bind(1);
 		specular.bind(2);
-		entityShader.uniforms.samplerUniform = 0;
+		entityShader.uniforms.diffuseSampler = 0;
+		entityShader.uniforms.normalSampler = 1;
+		entityShader.uniforms.specularSampler = 2;
 		
 		// normal.bind(1);
 		// specular.bind(2);

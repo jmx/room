@@ -15,9 +15,9 @@ varying vec3 vposition;
 varying vec2 vtex0;
 
 void main() {
-   gl_Position = projection * view * model * vec4(position, 1.0);
    vposition = vec3(model * vec4(position, 1.0));
    vnormal = normalize(vec3(invModel * normal));
    vtex0 = uvs;
    gl_PointSize = 1.00000;
+   gl_Position = projection * view * model * vec4(position, 1.0);
 }
