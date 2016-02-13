@@ -15,7 +15,9 @@ each(urls, loadImage, (err, images) => {
 		throw err;
 
 	// create gl-now context
-	let shell = glnow();
+	let shell = glnow({
+		clearColor: [0.1, 0.1, 0.1]
+	});
 
 	// launch app once images are loaded
 	createApp(shell, images);
